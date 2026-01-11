@@ -29,6 +29,18 @@ data/cases/*
 data/results/*
 !data/cases/.gitkeep
 !data/results/.gitkeep
+# Keep only the latest results folder
+!data/results_20260111_151734/**
+
+# Log files
+logs/
+*.log
+
+# Archive files
+*.zip
+*.tar
+*.tar.gz
+*.rar
 
 # Build and distribution files
 build/
