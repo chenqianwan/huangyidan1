@@ -30,6 +30,12 @@ data/results/*
 !data/cases/.gitkeep
 !data/results/.gitkeep
 
+# Build and distribution files
+build/
+dist/
+*.pkg
+*.dmg
+
 # OS
 .DS_Store
 Thumbs.db
