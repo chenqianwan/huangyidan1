@@ -213,8 +213,19 @@ AI回答：
 - 重大错误：...（严重问题，如受害者责备、编造事实、伦理不可接受等）
 """
         
-        # 调用API（如果API支持thinking模式则使用，否则不使用）
-        use_thinking = hasattr(self.api, 'use_thinking') and getattr(self.api, 'use_thinking', False)
+        # 调用API（评估始终使用thinking模式，因为评估使用的是DeepSeek API）
+        # 检查API是否是DeepSeek API，如果是则使用thinking模式
+        use_thinking = False
+        if hasattr(self.api, 'provider'):
+            # UnifiedAIAPI
+            use_thinking = (self.api.provider == 'deepseek')
+        elif hasattr(self.api, 'api') and hasattr(self.api.api, 'provider'):
+            # 嵌套的API
+            use_thinking = (self.api.api.provider == 'deepseek')
+        elif type(self.api).__name__ == 'DeepSeekAPI':
+            # 直接是DeepSeekAPI
+            use_thinking = True
+        
         # 对于GPT-4o等不支持thinking的API，use_thinking会被忽略
         response = self.api.analyze_case(prompt, question=None, use_thinking=use_thinking)
         return response

@@ -88,15 +88,23 @@ def load_model_data(results_path):
     
     for file in os.listdir(results_path):
         if file.endswith('.xlsx'):
+            # 优先匹配特定时间戳的文件（向后兼容）
             if 'GPT4O_20个案例评估_20260111_144037' in file:
                 model_files['GPT-4o'] = os.path.join(results_path, file)
             elif 'GPT-o3_20个案例评估_20260111_144315' in file or 'GPT4O_20个案例评估_20260111_144315' in file:
                 model_files['GPT-o3'] = os.path.join(results_path, file)
-            elif 'GPT4O_20个案例评估_20260111_153605' in file:
+            elif 'GPT5_20个案例评估_20260111_153605' in file or 'GPT4O_20个案例评估_20260111_153605' in file:
+                model_files['GPT-5'] = os.path.join(results_path, file)
+            # 通用匹配（匹配任何包含模型标识的文件）
+            elif 'GPT4O_20个案例评估' in file and model_files['GPT-4o'] is None:
+                model_files['GPT-4o'] = os.path.join(results_path, file)
+            elif ('GPT-o3_20个案例评估' in file or 'GPT_O3_20个案例评估' in file) and model_files.get('GPT-o3') is None:
+                model_files['GPT-o3'] = os.path.join(results_path, file)
+            elif 'GPT5_20个案例评估' in file and model_files.get('GPT-5') is None:
                 model_files['GPT-5'] = os.path.join(results_path, file)
             elif 'DEEPSEEK_THINKING' in file or ('THINKING' in file and 'DEEPSEEK' in file):
                 model_files['DeepSeek-Thinking'] = os.path.join(results_path, file)
-            elif 'DEEPSEEK' in file and 'THINKING' not in file:
+            elif 'DEEPSEEK' in file and 'THINKING' not in file and model_files.get('DeepSeek') is None:
                 model_files['DeepSeek'] = os.path.join(results_path, file)
             elif 'GEMINI' in file:
                 model_files['Gemini'] = os.path.join(results_path, file)

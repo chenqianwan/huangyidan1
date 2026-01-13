@@ -271,15 +271,57 @@ class DeepSeekAPI:
             # 提取最终答案
             answer = message.get('content', '')
             
-            # BUG修复：如果content为空，记录警告但不从reasoning_content中提取
-            # 因为reasoning_content是推理过程，不是最终答案，数据可能不一致
+            # 如果content为空，自动重试（最多3次）
             if not answer or answer.strip() == '':
                 if thinking and thinking.strip():
-                    # 记录警告，但不自动提取（因为数据可能不一致）
-                    print(f"[DeepSeek API] 警告：content为空，但reasoning_content有内容（{len(thinking)}字符）", flush=True)
-                    print(f"[DeepSeek API] 注意：reasoning_content是推理过程，不是最终答案，建议重新调用API", flush=True)
-                    # 不自动提取，保持answer为空，让调用方处理
-                    # 这样可以确保数据一致性，避免使用不准确的答案
+                    print(f"[DeepSeek API] ⚠️ 警告：content为空，但reasoning_content有内容（{len(thinking)}字符）", flush=True)
+                    print(f"[DeepSeek API] 开始自动重试机制...", flush=True)
+                
+                # 自动重试机制（最多3次）
+                max_retries = 3
+                for retry_count in range(1, max_retries + 1):
+                    print(f"[DeepSeek API] 第{retry_count}次重试（共{max_retries}次）...", flush=True)
+                    try:
+                        retry_response = self._make_request(messages, temperature=0.3, max_tokens=3000, use_thinking=use_thinking)
+                        
+                        if retry_response and 'choices' in retry_response and len(retry_response['choices']) > 0:
+                            retry_choice = retry_response['choices'][0]
+                            retry_message = retry_choice.get('message', {})
+                            retry_answer = retry_message.get('content', '')
+                            
+                            if retry_answer and retry_answer.strip():
+                                print(f"[DeepSeek API] ✓ 重试成功，获得答案（{len(retry_answer)}字符）", flush=True)
+                                answer = retry_answer
+                                
+                                # 更新thinking内容（如果重试时也有thinking）
+                                if use_thinking:
+                                    retry_thinking = retry_message.get('reasoning_content', '')
+                                    if retry_thinking:
+                                        thinking = retry_thinking
+                                break
+                            else:
+                                print(f"[DeepSeek API] 重试{retry_count}：content仍为空", flush=True)
+                                if retry_count < max_retries:
+                                    import time
+                                    time.sleep(2)  # 等待2秒后重试
+                        else:
+                            print(f"[DeepSeek API] 重试{retry_count}：API响应格式错误", flush=True)
+                            if retry_count < max_retries:
+                                import time
+                                time.sleep(2)
+                    except Exception as retry_e:
+                        print(f"[DeepSeek API] 重试{retry_count}失败: {str(retry_e)}", flush=True)
+                        if retry_count < max_retries:
+                            import time
+                            time.sleep(2)
+                
+                # 如果所有重试都失败，抛出异常
+                if not answer or answer.strip() == '':
+                    error_msg = f"API返回content为空，重试{max_retries}次后仍失败"
+                    print(f"[DeepSeek API] ✗ {error_msg}", flush=True)
+                    if thinking and thinking.strip():
+                        print(f"[DeepSeek API] 详细信息：thinking内容长度={len(thinking)}字符", flush=True)
+                    raise Exception(error_msg)
             
             print(f"[DeepSeek API] 分析完成，答案长度: {len(answer)} 字符", flush=True)
             if thinking:

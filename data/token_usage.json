@@ -1,10 +1,10 @@
 {
   "total_stats": {
-    "input_tokens": 1302020,
-    "output_tokens": 585357,
+    "input_tokens": 1310358,
+    "output_tokens": 590812,
     "reasoning_tokens": 0,
-    "total_tokens": 1887377,
-    "api_calls": 483
+    "total_tokens": 1901170,
+    "api_calls": 500
   },
   "sessions": [
     {
@@ -3870,15 +3870,151 @@
       "output_tokens": 1606,
       "reasoning_tokens": 0,
       "total_tokens": 8607
+    },
+    {
+      "timestamp": "2026-01-11T23:13:45.890564",
+      "api_type": "normal",
+      "input_tokens": 198,
+      "output_tokens": 8,
+      "reasoning_tokens": 0,
+      "total_tokens": 206
+    },
+    {
+      "timestamp": "2026-01-11T23:13:53.689458",
+      "api_type": "normal",
+      "input_tokens": 519,
+      "output_tokens": 221,
+      "reasoning_tokens": 0,
+      "total_tokens": 740
+    },
+    {
+      "timestamp": "2026-01-11T23:16:18.275788",
+      "api_type": "normal",
+      "input_tokens": 198,
+      "output_tokens": 8,
+      "reasoning_tokens": 0,
+      "total_tokens": 206
+    },
+    {
+      "timestamp": "2026-01-11T23:16:25.828685",
+      "api_type": "normal",
+      "input_tokens": 519,
+      "output_tokens": 209,
+      "reasoning_tokens": 0,
+      "total_tokens": 728
+    },
+    {
+      "timestamp": "2026-01-11T23:16:46.401434",
+      "api_type": "normal",
+      "input_tokens": 936,
+      "output_tokens": 660,
+      "reasoning_tokens": 0,
+      "total_tokens": 1596
+    },
+    {
+      "timestamp": "2026-01-11T23:17:12.283407",
+      "api_type": "normal",
+      "input_tokens": 325,
+      "output_tokens": 703,
+      "reasoning_tokens": 0,
+      "total_tokens": 1028
+    },
+    {
+      "timestamp": "2026-01-11T23:27:14.939963",
+      "api_type": "normal",
+      "input_tokens": 198,
+      "output_tokens": 8,
+      "reasoning_tokens": 0,
+      "total_tokens": 206
+    },
+    {
+      "timestamp": "2026-01-11T23:27:22.604930",
+      "api_type": "normal",
+      "input_tokens": 519,
+      "output_tokens": 226,
+      "reasoning_tokens": 0,
+      "total_tokens": 745
+    },
+    {
+      "timestamp": "2026-01-11T23:27:43.231298",
+      "api_type": "normal",
+      "input_tokens": 936,
+      "output_tokens": 659,
+      "reasoning_tokens": 0,
+      "total_tokens": 1595
+    },
+    {
+      "timestamp": "2026-01-11T23:27:59.539115",
+      "api_type": "normal",
+      "input_tokens": 342,
+      "output_tokens": 437,
+      "reasoning_tokens": 0,
+      "total_tokens": 779
+    },
+    {
+      "timestamp": "2026-01-11T23:36:11.973801",
+      "api_type": "normal",
+      "input_tokens": 198,
+      "output_tokens": 8,
+      "reasoning_tokens": 0,
+      "total_tokens": 206
+    },
+    {
+      "timestamp": "2026-01-11T23:36:19.675161",
+      "api_type": "normal",
+      "input_tokens": 519,
+      "output_tokens": 221,
+      "reasoning_tokens": 0,
+      "total_tokens": 740
+    },
+    {
+      "timestamp": "2026-01-11T23:36:39.533622",
+      "api_type": "normal",
+      "input_tokens": 936,
+      "output_tokens": 659,
+      "reasoning_tokens": 0,
+      "total_tokens": 1595
+    },
+    {
+      "timestamp": "2026-01-11T23:37:08.587616",
+      "api_type": "normal",
+      "input_tokens": 198,
+      "output_tokens": 8,
+      "reasoning_tokens": 0,
+      "total_tokens": 206
+    },
+    {
+      "timestamp": "2026-01-11T23:37:16.211464",
+      "api_type": "normal",
+      "input_tokens": 519,
+      "output_tokens": 226,
+      "reasoning_tokens": 0,
+      "total_tokens": 745
+    },
+    {
+      "timestamp": "2026-01-11T23:37:36.359845",
+      "api_type": "normal",
+      "input_tokens": 936,
+      "output_tokens": 660,
+      "reasoning_tokens": 0,
+      "total_tokens": 1596
+    },
+    {
+      "timestamp": "2026-01-11T23:37:56.233781",
+      "api_type": "normal",
+      "input_tokens": 342,
+      "output_tokens": 534,
+      "reasoning_tokens": 0,
+      "total_tokens": 876
     }
   ],
   "by_date": {
     "2026-01-11": {
-      "input_tokens": 1302020,
-      "output_tokens": 585357,
+      "input_tokens": 1310358,
+      "output_tokens": 590812,
       "reasoning_tokens": 0,
-      "total_tokens": 1887377,
-      "api_calls": 483
+      "total_tokens": 1901170,
+      "api_calls": 500
     }
   }
 }
