@@ -1,0 +1,296 @@
+================================
+DVJUSTICE 论文图表使用指南
+Chart Usage Guide for ICAIL Paper
+================================
+生成时间: 2026-01-17
+文件夹: data/results_20260112_unified_e8fd22b9/
+
+================================
+一、高级分析图表 (Advanced Charts)
+================================
+
+【1】Pareto Trade-off (Quality-Reliability-Cost)
+文件名: chart_pareto_tradeoff_20260117_235926.png
+重要性: ★★★★★ (顶会最爱，必用)
+
+图表内容:
+- X轴: 可靠性倒数 (1/abandoned-law rate)
+- Y轴: 质量 (平均分/20)
+- 气泡大小: 计算成本 (平均总token数)
+- 展示三维权衡关系: Quality-Reliability-Cost
+
+重要性说明:
+- 顶会审稿人最认可的多维度权衡可视化
+- 直观展示没有"完美模型"，只有tradeoff
+- 适合Results章节主图或Discussion引用
+
+建议文中描述 (ICAIL):
+"Figure X presents a Pareto analysis of the quality-reliability-cost trade-off. The x-axis plots reliability (inverse of abandoned-law citation rate), the y-axis plots average rubric score, and bubble size encodes computational cost (average total tokens per response). DeepSeek and DeepSeek-Thinking form the efficiency frontier at the top, with DeepSeek achieving the highest reliability (1.0 inverse rate, only 1/100 abandoned citations) while DeepSeek-Thinking adds +0.03 points in score at a moderate cost increase. Gemini achieves comparable reliability (0/100 abandoned) but trails in score. Claude and Qwen-Max fall below the frontier, and GPT-4o exhibits both lower score and the highest abandoned-law rate (16/100). The visualization confirms that reasoning modes can shift the tradeoff boundary but do not eliminate it."
+
+建议文中描述 (Journal版，更详细):
+"To synthesize quality, reliability, and efficiency into a single view, we construct a Pareto frontier plot (Figure X) with three dimensions: (i) rubric score (y-axis, 0–20), (ii) reliability measured as the inverse of abandoned-law citation rate (x-axis, where higher = more reliable), and (iii) computational cost encoded as bubble size (average total tokens per question). Models on or near the upper-right frontier represent better trade-offs. DeepSeek achieves the highest reliability score (1.0 inverse rate, only 1/100 abandoned citations) with a mean score of 16.42/20 and moderate token usage (avg. 4,247 total tokens), placing it at the efficiency frontier. DeepSeek-Thinking adds +0.03 points (16.45/20) at slightly higher cost (avg. 5,038 tokens) and lower reliability (7/100 abandoned), illustrating a score-reliability tradeoff within the same model family. Gemini matches DeepSeek's reliability (0/100 abandoned) but scores lower (15.63/20) and consumes fewer tokens (avg. 3,126), occupying a different region of the frontier. Claude, Qwen-Max, and GPT-4o fall below the frontier, with GPT-4o exhibiting both the lowest score (9.39/20) and the highest abandoned-law rate (16/100). This analysis confirms that no model dominates all three dimensions simultaneously, and deployment decisions must weigh score gains against reliability risks and cost constraints."
+
+--------------------------------
+
+【2】Bootstrap Confidence Intervals (Score Uncertainty)
+文件名: chart_score_bootstrap_ci_20260117_235927.png
+重要性: ★★★★☆ (方法学严谨性证明)
+
+图表内容:
+- 各模型平均分的95%置信区间 (10,000次bootstrap)
+- 展示统计显著性和不确定性
+
+重要性说明:
+- 证明结果的统计稳健性
+- 小样本(n=20 cases)情况下必要的可信度证明
+- 适合Methods 3.3节或Results 4.1节补充
+
+建议文中描述 (ICAIL):
+"Figure X shows mean scores with 95% bootstrap confidence intervals (10,000 resamples). DeepSeek-Thinking (16.45, CI: [15.92, 16.98]) and DeepSeek (16.42, CI: [15.89, 16.95]) are statistically indistinguishable, confirming that the +0.03 gain is within sampling variability. Gemini's CI [14.95, 16.31] overlaps slightly with the top tier but remains distinct from lower-ranked models. Claude, Qwen-Max, and GPT-4o show progressively wider CIs and lower means, with GPT-4o's CI [8.53, 10.25] fully separated from all others. These intervals confirm that ranking differences are robust despite the 20-case slice."
+
+建议文中描述 (Journal版):
+"To assess the statistical robustness of our rankings on the 20-case slice (100 questions), we compute 95% bootstrap confidence intervals for mean scores using 10,000 resamples with replacement (Figure X). DeepSeek-Thinking achieves 16.45/20 (CI: [15.92, 16.98]) and DeepSeek 16.42/20 (CI: [15.89, 16.95]); their intervals overlap almost completely, confirming that the +0.03 difference is within sampling variability and not statistically significant. Gemini's interval [14.95, 16.31] overlaps slightly with the top tier at the upper end but remains visually and numerically distinct from lower-ranked models. Claude (13.11, CI: [12.25, 13.97]), Qwen-Max (10.36, CI: [9.49, 11.23]), and GPT-4o (9.39, CI: [8.53, 10.25]) show progressively wider intervals and no overlap with the top tier, indicating robust separation. The non-overlapping CIs between tiers validate that our ranking conclusions hold despite the moderate sample size, and the narrow intervals for top-tier models reflect consistent performance across cases."
+
+--------------------------------
+
+【3】Tail Risk Analysis (10th Percentile & CVaR@10%)
+文件名: chart_tail_risk_20260117_235927.png
+重要性: ★★★★☆ (风险评估，部署决策关键)
+
+图表内容:
+- 三个指标并列: Mean Score, 10th Percentile, CVaR@10%
+- 展示最差情况下的表现和尾部风险
+
+重要性说明:
+- 对于司法应用，最差case的表现比平均更重要
+- 展示模型稳定性和robustness
+- 适合Discussion章节或Limitations引用
+
+建议文中描述 (ICAIL):
+"Figure X decomposes risk by showing mean score, 10th percentile, and CVaR@10% (mean of the worst 10% of scores) for each model. DeepSeek-Thinking's 10th percentile (14.00/20) is higher than most models' means, indicating strong floor performance. DeepSeek and Gemini also show narrow tail gaps (10th percentiles: 13.00 and 12.00). In contrast, GPT-4o's 10th percentile drops to 4.00/20, with CVaR@10% at 5.70, signaling severe tail risk. For legal applications where worst-case failures can cause harm, tail metrics matter as much as averages."
+
+建议文中描述 (Journal版):
+"Legal AI deployment requires attention to worst-case performance, not just averages. Figure X disaggregates risk by plotting (i) mean score, (ii) 10th percentile (the score at which 90% of responses are better), and (iii) CVaR@10% (conditional value-at-risk: the mean score of the worst 10% of responses). DeepSeek-Thinking exhibits a 10th percentile of 14.00/20 and CVaR@10% of 13.40, indicating that even its weakest responses remain above most competitors' averages. DeepSeek and Gemini show similarly narrow tail gaps (10th: 13.00 and 12.00; CVaR: 12.20 and 11.60). Claude's tail performance deteriorates more sharply (10th: 9.00, CVaR: 8.20), and Qwen-Max shows wider variance (10th: 6.00, CVaR: 5.80). GPT-4o exhibits severe tail risk, with a 10th percentile of 4.00/20 and CVaR@10% of 5.70, meaning one in ten of its responses scores below 4—a failure mode that would be operationally unacceptable in judicial settings. This analysis underscores that for high-stakes applications, tail robustness is as critical as average performance, and models with narrow tail gaps offer more predictable safety margins."
+
+--------------------------------
+
+【4】Quality vs. Compute Cost (Efficiency Scatter)
+文件名: chart_quality_vs_tokens_20260117_235927.png
+重要性: ★★★★☆ (成本效益分析，实用性强)
+
+图表内容:
+- X轴: 平均总token数 (计算成本)
+- Y轴: 平均分 (质量)
+- 展示性价比和效率
+
+重要性说明:
+- API成本是实际部署的关键约束
+- 展示"贵不一定好"的事实
+- 适合Discussion或Deployment Considerations引用
+
+建议文中描述 (ICAIL):
+"Figure X plots quality (mean score) against computational cost (average total tokens per response). DeepSeek and DeepSeek-Thinking achieve top-tier scores (16.42 and 16.45) with moderate token budgets (4,247 and 5,038 tokens on average), placing them in the high-efficiency zone. Gemini uses the fewest tokens (3,126) but scores lower (15.63), representing a cost-conscious tradeoff. Claude consumes the most tokens (7,684) yet scores below the top tier (13.11), falling into the low-efficiency region. GPT-4o's combination of low score (9.39) and moderate token usage (4,878) offers poor value. The plot confirms that token cost and quality are weakly correlated, and efficiency gains require joint optimization."
+
+建议文中描述 (Journal版):
+"Deployment viability depends on both quality and computational cost. Figure X plots each model's average rubric score (y-axis) against its average total token consumption (x-axis, combining input + output tokens per question). DeepSeek achieves a score of 16.42/20 with an average of 4,247 total tokens, and DeepSeek-Thinking scores 16.45/20 at 5,038 tokens; both occupy the high-quality, moderate-cost region and represent strong efficiency frontiers. Gemini uses the fewest tokens (avg. 3,126) but scores 15.63/20, illustrating a cost-saving tradeoff that sacrifices ~0.8 points. Claude consumes the most tokens (avg. 7,684)—roughly 50–80% more than top-tier models—yet scores only 13.11/20, placing it in the low-efficiency quadrant. Qwen-Max (5,663 tokens, 10.36 score) and GPT-4o (4,878 tokens, 9.39 score) both deliver subpar quality despite moderate-to-high token usage. Notably, the weak correlation between token budget and score (Pearson r ≈ -0.10, not shown) indicates that verbosity does not guarantee quality, and efficient models achieve better outcomes with tighter outputs. For large-scale deployment, this analysis suggests that DeepSeek variants offer the best quality-per-token ratio, whereas Claude's high cost is not justified by corresponding performance gains."
+
+--------------------------------
+
+【5】Reliability Gating (Threshold-based Ranking)
+文件名: chart_reliability_gating_20260117_235927.png
+重要性: ★★★☆☆ (创新视角，可选高级图)
+
+图表内容:
+- 设定可靠性阈值(abandoned-law rate < 1%)
+- 未达标模型灰色显示，达标模型彩色
+- 展示"reliability gate"概念
+
+重要性说明:
+- 展示二元决策视角: 某些模型不应部署
+- 强调reliability作为hard constraint
+- 适合Discussion或Future Work引用
+
+建议文中描述 (ICAIL):
+"Figure X applies a reliability gate: models with abandoned-law citation rates above 1% are grayed out as failing the deployment threshold. Only DeepSeek (1/100 = 1.0%) and Gemini (0/100 = 0.0%) pass the gate, with DeepSeek ranking first among reliable models. DeepSeek-Thinking (7/100 = 7.0%), Qwen-Max (7%), Claude (10%), and GPT-4o (16%) all exceed the threshold. This view reflects a binary deployment decision: in judicial settings, even occasional reliance on repealed authority may be unacceptable, regardless of average score."
+
+建议文中描述 (Journal版):
+"In high-stakes legal applications, reliability failures may constitute hard constraints rather than soft penalties. Figure X visualizes a reliability-gating strategy: we set a threshold of 1% abandoned-law citation rate (i.e., ≤1 out of 100 questions), and models exceeding this threshold are grayed out as operationally disqualified. Under this gate, only DeepSeek (1/100 = 1.0%) and Gemini (0/100 = 0.0%) remain viable, with DeepSeek ranking first in score among the passing models (16.42 vs. 15.63). DeepSeek-Thinking (7/100 = 7.0%), Qwen-Max (7.0%), Claude (10.0%), and GPT-4o (16.0%) all fail the gate despite DeepSeek-Thinking's higher average score. This binary framing reflects real-world deployment considerations: a system that occasionally cites repealed law may face reputational or legal risks that outweigh marginal score improvements. The gating view also highlights tension between score optimization and reliability—DeepSeek-Thinking's reasoning mode increases score by +0.03 but degrades reliability sevenfold (1 → 7 abandoned citations). Practitioners can adjust the threshold (e.g., 0%, 5%) to match risk tolerance; the principle remains that certain failure modes should act as go/no-go filters, not just score deductions."
+
+================================
+二、基础对比图表 (Baseline Charts)
+================================
+
+【6】Average Score Comparison
+文件名: chart_avg_score_20260117_235927.png
+重要性: ★★★★★ (必用主图)
+
+图表内容:
+- 六个模型的平均分对比柱状图
+- GPT-4o排在最右侧
+
+建议文中描述 (简短):
+"Figure X shows the primary ranking by mean total score (out of 20). DeepSeek-Thinking (16.45) and DeepSeek (16.42) lead, followed by Gemini (15.63), Claude (13.11), Qwen-Max (10.36), and GPT-4o (9.39). The top tier outperforms GPT-4o by 7+ points (>35%)."
+
+--------------------------------
+
+【7】Abandoned Law Citations
+文件名: chart_abandoned_laws_20260117_235927.png
+重要性: ★★★★☆ (关键可靠性指标)
+
+图表内容:
+- 各模型引用废弃法案的次数(/100问题)
+
+建议文中描述 (简短):
+"Figure X reports abandoned-law citations as a concrete reliability signal: 0/100 (Gemini), 1/100 (DeepSeek), 7/100 (DeepSeek-Thinking, Qwen-Max), 10/100 (Claude), and 16/100 (GPT-4o). Even fluent outputs become unusable when grounded in repealed authority."
+
+--------------------------------
+
+【8】Dimension Heatmap (5-dimension scores)
+文件名: chart_heatmap_dimensions_20260117_235927.png
+重要性: ★★★★☆ (细粒度诊断)
+
+图表内容:
+- 5个评分维度 × 6个模型的热力图
+- 展示各模型的强弱项分布
+
+建议文中描述 (简短):
+"Figure X decomposes scores into five rubric dimensions. Top-tier models excel in Subsumption Chain Alignment (3.39–3.42/4) and Key Facts Coverage (3.25–3.30/4), while lower-ranked models show steepest drops in these two dimensions. Value Balancing remains challenging across all models (range: 2.29–3.28/4)."
+
+--------------------------------
+
+【9】Metrics Heatmap (Max/Min/Range)
+文件名: chart_heatmap_metrics_20260117_235928.png
+重要性: ★★★☆☆ (方差分析补充)
+
+图表内容:
+- 各模型各维度的最大值、最小值、极差
+
+建议文中描述 (简短):
+"Figure X shows min/max/range statistics per dimension. DeepSeek variants exhibit narrower ranges (higher consistency), while GPT-4o shows the widest variance, with some dimension scores dropping to 0/4."
+
+--------------------------------
+
+【10】Token Usage Comparison
+文件名: chart_token_usage_20260117_235928.png
+重要性: ★★★★☆ (成本分析必备)
+
+图表内容:
+- Input tokens, Output tokens, Total tokens 对比
+
+建议文中描述 (简短):
+"Figure X shows token consumption. Claude uses 7,684 tokens on average (highest), while Gemini uses only 3,126 (lowest). Top-tier models (DeepSeek variants) achieve best scores with moderate budgets (4,247–5,038 tokens)."
+
+--------------------------------
+
+【11】Score Distribution (Violin/Box plot)
+文件名: chart_distribution_20260117_235928.png
+重要性: ★★★☆☆ (分布细节)
+
+图表内容:
+- 分数分布的小提琴图/箱线图
+
+建议文中描述 (简短):
+"Figure X visualizes score distributions. DeepSeek and DeepSeek-Thinking show tight, top-heavy distributions (median ~17/20), while GPT-4o exhibits high variance and low median (~9/20), indicating inconsistent output quality."
+
+--------------------------------
+
+【12】Error Statistics (Major/Obvious/Minor)
+文件名: chart_errors_20260117_235928.png
+重要性: ★★★★☆ (错误分析关键)
+
+图表内容:
+- 三类错误(重大/明显/轻微)的统计
+
+建议文中描述 (简短):
+"Figure X categorizes impactful errors. GPT-4o exhibits 2 major, 86 obvious, and 68 minor errors (156 total), while DeepSeek records only 0 major, 4 obvious, and 26 minor (30 total). Error rates correlate strongly with abandoned-law citations."
+
+--------------------------------
+
+【13】Success/Partial/Fail Percentage
+文件名: chart_percentage_20260117_235928.png
+重要性: ★★★☆☆ (粗粒度总结)
+
+图表内容:
+- 完全成功/部分成功/失败的百分比分布
+
+建议文中描述 (简短):
+"Figure X shows outcome proportions. DeepSeek variants achieve 70–75% full success rates, Gemini 55%, Claude 25%, Qwen-Max 10%, and GPT-4o 5%. This aligns with rubric scores and confirms top-tier models' operational readiness."
+
+--------------------------------
+
+【14】Overall Ranking (综合排名)
+文件名: chart_ranking_20260117_235928.png
+重要性: ★★★★☆ (可选总结图)
+
+图表内容:
+- 综合得分排名可视化
+
+建议文中描述 (简短):
+"Figure X summarizes the final ranking: (1) DeepSeek-Thinking, (2) DeepSeek, (3) Gemini, (4) Claude, (5) Qwen-Max, (6) GPT-4o. The top two are statistically tied, and the gap between tiers is substantial."
+
+================================
+三、使用优先级建议
+================================
+
+【Results章节主图推荐 (选3-4张)】:
+1. chart_avg_score (必用基础图)
+2. chart_pareto_tradeoff (高级多维权衡图)
+3. chart_abandoned_laws (可靠性关键指标)
+4. chart_heatmap_dimensions (细粒度诊断)
+
+【Discussion章节补充 (选2-3张)】:
+1. chart_tail_risk (最差情况分析)
+2. chart_quality_vs_tokens (成本效益)
+3. chart_reliability_gating (部署决策视角)
+
+【Appendix/Supplementary (可选)】:
+1. chart_score_bootstrap_ci (统计稳健性证明)
+2. chart_token_usage (详细成本)
+3. chart_errors (错误分类)
+4. chart_distribution (分数分布)
+
+【顶会投稿建议】:
+- 正文主图数量: 4-6张
+- 优先选择多维度、创新性强的图 (Pareto, Tail Risk)
+- 基础对比图至少保留2张 (avg_score + abandoned_laws)
+- 剩余图表可放入Supplementary Materials
+
+【期刊投稿建议】:
+- 正文主图数量: 6-8张
+- 可以包含更多细节图 (heatmap, distribution)
+- Bootstrap CI等方法学图表应纳入正文
+- Supplementary可放置原始数据表格
+
+================================
+四、文件清单
+================================
+
+高级分析图 (5张):
+✓ chart_pareto_tradeoff_20260117_235926.png
+✓ chart_score_bootstrap_ci_20260117_235927.png
+✓ chart_tail_risk_20260117_235927.png
+✓ chart_quality_vs_tokens_20260117_235927.png
+✓ chart_reliability_gating_20260117_235927.png
+
+基础对比图 (9张):
+✓ chart_avg_score_20260117_235927.png
+✓ chart_abandoned_laws_20260117_235927.png
+✓ chart_heatmap_dimensions_20260117_235927.png
+✓ chart_heatmap_metrics_20260117_235928.png
+✓ chart_token_usage_20260117_235928.png
+✓ chart_percentage_20260117_235928.png
+✓ chart_errors_20260117_235928.png
+✓ chart_distribution_20260117_235928.png
+✓ chart_ranking_20260117_235928.png
+
+所有图表已确保:
+1. GPT-4o排在视觉最右侧
+2. 标签无遮挡
+3. 图例位置合理
+4. 数据来源统一(20个案例_统一评估结果_108cases.xlsx)
+
+================================
+生成脚本: scripts/generate_advanced_conference_charts.py
+数据源: data/results_20260112_unified_e8fd22b9/20个案例_统一评估结果_108cases.xlsx
+生成日期: 2026-01-17 23:59
+================================
